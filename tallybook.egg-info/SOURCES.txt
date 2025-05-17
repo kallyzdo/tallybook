@@ -1,0 +1,10 @@
+setup.py
+tallybook/__init__.py
+tallybook/main.py
+tallybook/parsers.py
+tallybook/storage.py
+tallybook.egg-info/PKG-INFO
+tallybook.egg-info/SOURCES.txt
+tallybook.egg-info/dependency_links.txt
+tallybook.egg-info/entry_points.txt
+tallybook.egg-info/top_level.txt
