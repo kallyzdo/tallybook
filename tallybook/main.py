@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from tallybook.parsers import add, unadd, check, uncheck, show_calendar, list_habits
+from tallybook.parsers import add, unadd, check, uncheck, show_calendar, list_habits, todo
 from datetime import date
 
 def main():
@@ -42,6 +42,11 @@ def main():
     list_parser = subparsers.add_parser("list")
     list_parser.set_defaults(func=list_habits)
 
+    todo_parser = subparsers.add_parser("todo")
+    group = todo_parser.add_mutually_exclusive_group()
+    group.add_argument("task", nargs='?', help='Todo task to add (wrap in quotes if multiple words)')
+    group.add_argument("-r", "--remove", type=int, help="Remove todo by line number")
+    todo_parser.set_defaults(func=todo)
     
     args = parser.parse_args()
     args.func(args)

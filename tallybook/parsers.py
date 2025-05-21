@@ -6,6 +6,7 @@ from datetime import date
 from tallybook.storage import load_data, save_data
 import re
 import json
+from pathlib import Path
 
 
 def check_day(habit, day=None):
@@ -182,3 +183,37 @@ def list_habits(args):
         print(k)
 
 #################################################################################
+
+def todo(args):
+    data_file = Path.home() / "Documents/projects/tallybook/tallybook/todo.txt"
+
+    if args.task is None and args.remove is None:
+        # No arguments — show list
+        if not data_file.exists() or data_file.stat().st_size == 0:
+            print("Your todo list is empty.")
+            return
+        print("todo:")
+        with open(data_file, "r") as f:
+            text = f.read()
+            print(text)
+
+    elif args.remove is not None:
+        # Remove item by index
+        try:
+            with open(data_file, 'r+') as f:
+                lines = f.readlines()
+                removed = lines.pop(args.remove - 1)
+                f.seek(0)
+                f.writelines(lines)
+                f.truncate()
+            print(f"Removed.")
+        except (IndexError, FileNotFoundError):
+            print(f"No todo item at index {args.remove}.")
+
+    elif args.task:
+        # Add task, wrap in parentheses
+        with open(data_file, 'a') as f:
+            f.write(f"[ ] ({args.task.strip()})\n")
+
+
+
